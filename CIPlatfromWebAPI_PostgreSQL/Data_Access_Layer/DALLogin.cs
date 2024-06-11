@@ -296,6 +296,15 @@ namespace Data_Access_Layer
                         // Get the userdetails
                         var existingUserDetail = _cIDbContext.UserDetail
                             .FirstOrDefault(u => u.UserId == userDetail.UserId && u.IsDeleted == false);
+                        existingUserDetail.Name = userDetail.Name;
+                        existingUserDetail.Surname = userDetail.Surname;
+                        existingUserDetail.ModifiedDate = DateTime.Now.ToUniversalTime();
+                        existingUserDetail.MyProfile = userDetail.MyProfile;
+                        existingUserDetail.WhyIVolunteer = userDetail.WhyIVolunteer;
+                        existingUserDetail.Avilability = userDetail.Avilability;
+                        existingUserDetail.LinkdInUrl = userDetail.LinkdInUrl;
+                        existingUserDetail.MySkills = userDetail.MySkills;
+                        existingUserDetail.UserImage = userDetail.UserImage;
 
                         if (existingUserDetail != null)
                         {
@@ -318,10 +327,11 @@ namespace Data_Access_Layer
                             //Update First and Last Name
                             user.FirstName = userDetail.FirstName;
                             user.LastName = userDetail.LastName;
+                            user.ModifiedDate = DateTime.Now.ToUniversalTime();
 
-                            _cIDbContext.SaveChanges();
                         }
-
+                        _cIDbContext.SaveChanges();
+                    
 
                         // Commit transaction
                         transaction.Commit();
@@ -339,6 +349,42 @@ namespace Data_Access_Layer
                 throw;
             }
             return result;
+        }
+
+
+        public string ChangePassword(ChangePassword changePassword)
+        {
+            string result = "";
+            try
+            {
+                int id = changePassword.UserId;
+                var user = _cIDbContext.User.FirstOrDefault(u => u.Id == changePassword.UserId && u.IsDeleted == false);
+                if (user != null)
+                {
+                    if (changePassword.OldPassword == user.Password)
+                    {
+                        if (changePassword.NewPassword == changePassword.ConfirmPassword)
+                        {
+                            user.Password = changePassword.ConfirmPassword;
+                            _cIDbContext.SaveChanges();
+                            result = "Password Changed Successfully..";
+                        }
+                        else
+                        {
+                            result = "New Password and Confirm Password Must be Same..";
+                        }
+                    }
+                    else
+                    {
+                        result = "Old Password is Wrong";
+                    }
+                }
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
 

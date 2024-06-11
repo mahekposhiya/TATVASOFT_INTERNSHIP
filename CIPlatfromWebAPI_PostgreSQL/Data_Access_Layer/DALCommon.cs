@@ -79,19 +79,64 @@ namespace Data_Access_Layer
                 .Select(m => new DropDown { Value = m.Id, Text = m.MissionTitle })
                 .ToListAsync();
         }
-        public List<DropDown> GetUserSkill(int userId)
+        public string ContactUs(ContactUs contactUs)
         {
-            List<DropDown> missionSkill = new List<DropDown>();
+            string result = "";
             try
             {
+                int mID = _cIDbContext.ContactUs.Max(u => u.Id) + 1;
+                contactUs.Id = mID;
+                contactUs.CreatedDate = DateTime.Now.ToUniversalTime();
+                _cIDbContext.ContactUs.Add(contactUs);
+                _cIDbContext.SaveChanges();
+                return "We will Reach out you soon..";
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return result;
+        }
 
+        public string AddUserSkill(UserSkills userSkills)
+        {
+            try
+            {
+                int mID = _cIDbContext.UserSkills.Max(u => u.Id) + 1;
+                userSkills.Id = mID;
+                userSkills.CreatedDate = DateTime.Now.ToUniversalTime();
+                userSkills.IsDeleted = false;
+                _cIDbContext.UserSkills.Add(userSkills);
+                _cIDbContext.SaveChanges();
+                return "Save Skill Successfully..";
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public List<DropDown> GetUserSkill(int userId)
+        {
+            List<DropDown> userSkill = new List<DropDown>();
+            try
+            {
+                userSkill = _cIDbContext.UserSkills
+                                     .Where(ms => ms.UserId == userId && !ms.IsDeleted)
+                                     .OrderByDescending(ms => ms.Id)
+                                     .Select(ms => new DropDown
+                                     {
+                                         Value = ms.Id,
+                                         Text = ms.Skill
+                                     })
+                                     .ToList();
             }
             catch (Exception)
             {
 
                 throw;
             }
-            return missionSkill;
+            return userSkill;
         }
+
     }
 }

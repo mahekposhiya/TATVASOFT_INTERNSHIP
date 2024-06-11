@@ -39,6 +39,7 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { DatePipe } from '@angular/common';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,8 +56,7 @@ import { DatePipe } from '@angular/common';
     UsereditprofileComponent,
     PrivacyPolicyComponent,
     VolunteeringTimesheetComponent,
-    SearchPipe,
-    
+    SearchPipe
 
   ],
   imports: [

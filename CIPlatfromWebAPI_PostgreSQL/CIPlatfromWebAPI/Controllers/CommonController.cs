@@ -164,6 +164,29 @@ namespace Web_API.Controllers
             }
             return Ok(new { success = true, Data = fileList });
         }
+
+        [HttpPost]
+        [Route("AddUserSkill")]
+        [Authorize]
+        public ResponseResult AddUserSkill(UserSkills userSkills)
+        {
+            ResponseResult result = new ResponseResult();
+            try
+            {
+                result.Data = _balCommon.AddUserSkill(userSkills);
+                result.Result = ResponseStatus.Success;
+            }
+            catch (Exception ex)
+            {
+                result.Result = ResponseStatus.Error;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+
+
+
         [HttpGet]
         [Route("GetUserSkill/{userId}")]
         [Authorize]

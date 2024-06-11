@@ -54,5 +54,10 @@ namespace Business_logic_Layer
         {
             return _dalCommon.GetUserSkill(userId);
         }
+        public string AddUserSkill(UserSkills userSkills)
+        {
+            return _dalCommon.AddUserSkill(userSkills);
+        }
+
     }
 }

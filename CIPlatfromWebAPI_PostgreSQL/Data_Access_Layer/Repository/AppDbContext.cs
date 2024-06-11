@@ -22,5 +22,26 @@ namespace Data_Access_Layer.Repository
         public DbSet<City> City { get; set; }
         public DbSet<Missions> Missions { get; set; }
         public DbSet<MissionApplication> MissionApplication { get; set; }
+
+        public DbSet<ContactUs> ContactUs { get; set; }
+        public DbSet<UserSkills> UserSkills { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().ToTable("User", "CIProject");
+            modelBuilder.Entity<UserDetail>().ToTable("UserDetail", "CIProject");
+            modelBuilder.Entity<MissionSkill>().ToTable("MissionSkill", "CIProject");
+            modelBuilder.Entity<MissionTheme>().ToTable("MissionTheme", "CIProject");
+            modelBuilder.Entity<City>().ToTable("City", "CIProject");
+            modelBuilder.Entity<Missions>().ToTable("Missions", "CIProject");
+            modelBuilder.Entity<MissionApplication>().ToTable("MissionApplication", "CIProject");
+            modelBuilder.Entity<Country>().ToTable("Country", "CIProject");
+            modelBuilder.Entity<UserSkills>().ToTable("UserSkills", "CIProject");
+            modelBuilder.Entity<ContactUs>().ToTable("ContactUs", "CIProject");
+
+            base.OnModelCreating(modelBuilder);
+        }
+
+
     }
 }
